@@ -1,4 +1,4 @@
-﻿# OsuMapFilter  
+﻿﻿# OsuMapFilter  
 Filter existing maps  
 地圖過濾  
 效果:  
@@ -9,11 +9,11 @@ require / 需要安裝:
 [Python 3.8](https://www.python.org/downloads/) / 
 [Tampermonkey](https://www.tampermonkey.net/)
 
-run / 執行 `getmaplist.py`
+* run / 執行 `getmaplist.py`
 
-select osu install path (folder that contain `osu!.exe`)
+* select osu install path (folder that contain `osu!.exe`)
   
-選擇osu安裝路徑
+* 選擇osu安裝路徑
   
 default path / 預設路徑:
 `C:\Users\<Username>\AppData\Local\osu!`
@@ -22,11 +22,11 @@ default path / 預設路徑:
 
 this will generate / 產生 `map_list.txt`
 
-install / 安裝 `osumapfilter.js`
+* install / 安裝 [osuMapFilter.js](https://greasyfork.org/scripts/409887)
 
-when you open / 打開 https://osu.ppy.sh/beatmapsets
+* when you open / 打開 https://osu.ppy.sh/beatmapsets
 
-load / 載入 `map_list.txt`
+* load / 載入 `map_list.txt`
 
 then it will start filtering maps / 檔案正確的話應該會開始過濾 效果如上方的圖
 
