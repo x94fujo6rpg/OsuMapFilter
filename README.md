@@ -15,10 +15,10 @@ require / 需要安裝:
   
 * 選擇osu安裝路徑
   
-default path / 預設路徑:
-`C:\Users\<Username>\AppData\Local\osu!`
-`C:\Program Files\osu!`
-`C:\Program Files(x86)\osu!`
+default path / 預設路徑:  
+`C:\Users\<Username>\AppData\Local\osu!`  
+`C:\Program Files\osu!`  
+`C:\Program Files(x86)\osu!`  
 
 this will generate / 產生 `map_list.txt`
 
