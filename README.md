@@ -1,0 +1,2 @@
+# OsuMapFilter
+Filter existing maps
