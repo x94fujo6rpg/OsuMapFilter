@@ -4,6 +4,9 @@ Filter existing maps
 效果:  
 ![](https://i.imgur.com/dkT6nFu.jpg)  
 
+you need map list to make this script work  
+if you from greasyfork, get python script on [my github](https://github.com/x94fujo6rpg/osuMapFilter)  
+
 ## update
 v0.2: add stop button, fix some issue  
 make map links open in new tab (prevent accidental clicks)  
