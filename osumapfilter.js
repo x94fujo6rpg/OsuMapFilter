@@ -1,7 +1,9 @@
 // ==UserScript==
 // @name         osuMapFilter
 // @namespace    https://greasyfork.org/users/110545
-// @version      0.1
+// @updateURL    https://github.com/x94fujo6rpg/osuMapFilter/raw/master/osumapfilter.js
+// @downloadURL  https://github.com/x94fujo6rpg/osuMapFilter/raw/master/osumapfilter.js
+// @version      0.2
 // @description  filter osu maps
 // @author       x94fujo6
 // @match        https://osu.ppy.sh/beatmapsets
@@ -15,12 +17,11 @@ https://github.com/x94fujo6rpg/osuMapFilter
  */
 
 
-(function() {
+(function () {
     'use strict';
-    window.map_list = [];
-    window.hindemaps = 0;
-    window.filterloop = 0;
-    window.isfilterdone = 0;
+    let map_list = [];
+    let hidemaps = 0;
+    let stop = false;
     window.onload = main();
 
     function main() {
@@ -35,32 +36,27 @@ https://github.com/x94fujo6rpg/osuMapFilter
     }
 
     function runfilter() {
-        if (isfilterdone === 1 || map_list.length === 0) {
-            updatestatus("Filter stopped");
-            return;
-        }
-        let allmaps = document.querySelectorAll("[data-audio-url]");
-        let count = allmaps.length;
-        hindemaps++;
+        if (stop || map_list.length === 0) return updatestatus("Filter stopped");
+        let all_map_id = document.querySelectorAll("[data-audio-url]");
+        let count = all_map_id.length;
+        hidemaps++;
         updatestatus(`Filter is running\n${map_list.length} maps in list`);
-        allmaps.forEach((item) => {
+        all_map_id.forEach(item => {
             setTimeout(() => {
-                if (isfilterdone === 1) {
-                    updatestatus("Filter stopped");
-                    return;
-                }
-                let value = item.getAttribute("data-audio-url");
-                value = value.replace("//b.ppy.sh/preview/", "");
-                value = value.replace(".mp3", "");
-                if (map_list.indexOf(String(value)) != -1) {
+                if (stop || map_list.length === 0) return updatestatus("Filter stopped");
+
+                let map_id = item.getAttribute("data-audio-url").split("/");
+                map_id = map_id[map_id.length-1].replace(".mp3", "");
+                map_id = parseInt(map_id, 10);
+                if (map_list.includes(map_id)) {
                     item.querySelector(".beatmapset-panel__panel").style.opacity = "10%";
                 }
+
+                let link = item.querySelector(`a[href$="${map_id}"]`);
+                link.setAttribute("target", "_blank");
+
                 count--;
-                if (count === 0) {
-                    setTimeout(() => {
-                        runfilter();
-                    }, 1);
-                }
+                if (count === 0) setTimeout(runfilter, 100);
             }, 0);
         });
     }
@@ -89,28 +85,42 @@ https://github.com/x94fujo6rpg/osuMapFilter
             style: "word-wrap:break-word;white-space:pre-line;",
             textContent: "Load map_list.txt to start"
         });
-
+        let button = document.createElement("button");
+        Object.assign(button, {
+            textContent: "Stop Script",
+            style: "color: black",
+            onclick: function () {
+                stop = true;
+                updatestatus("Filter stopped");
+            }
+        });
         newbox.appendChild(readfile);
         newbox.appendChild(status);
+        newbox.appendChild(button);
         document.body.appendChild(newbox);
     }
 
     function readfile(myfile) {
         let file = myfile.target.files[0];
         if (!file) {
-            isfilterdone = 1;
+            stop = true;
             updatestatus("Filter stopped");
             return;
         }
         let reader = new FileReader();
-        reader.onload = function(myfile) {
+        reader.onload = function (myfile) {
             let contents = myfile.target.result;
             map_list = JSON.parse(contents);
-            isfilterdone = 0;
+            stop = 0;
             if (map_list.length > 0) {
+                toInt();
                 runfilter();
             }
         };
         reader.readAsText(file);
+    }
+
+    function toInt() {
+        map_list.forEach((id, index) => map_list[index] = parseInt(id, 10));
     }
 })();
