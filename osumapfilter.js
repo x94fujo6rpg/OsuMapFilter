@@ -3,25 +3,26 @@
 // @namespace    https://greasyfork.org/users/110545
 // @updateURL    https://github.com/x94fujo6rpg/osuMapFilter/raw/master/osumapfilter.js
 // @downloadURL  https://github.com/x94fujo6rpg/osuMapFilter/raw/master/osumapfilter.js
-// @version      0.2
+// @version      0.3
 // @description  filter osu maps
 // @author       x94fujo6
 // @match        https://osu.ppy.sh/beatmapsets
 // @match        https://osu.ppy.sh/beatmapsets?*
 // @grant        none
 // ==/UserScript==
-/* jshint esversion: 6 */
+/* jshint esversion: 9 */
 /* 
 you need map list to make this work!!!
 https://github.com/x94fujo6rpg/osuMapFilter
- */
-
+*/
 
 (function () {
     'use strict';
     let map_list = [];
     let hidemaps = 0;
     let stop = false;
+    let debug_msg = false;
+    let use_hash = false;
     window.onload = main();
 
     function main() {
@@ -30,31 +31,28 @@ https://github.com/x94fujo6rpg/osuMapFilter
             .addEventListener("change", readfile, false);
     }
 
-    function updatestatus(anystr = "") {
-        let status = document.getElementById("current_filter_status");
-        status.textContent = anystr;
+    function updatestatus(text = "") {
+        document.getElementById("current_filter_status").textContent = text;
     }
 
     function runfilter() {
         if (stop || map_list.length === 0) return updatestatus("Filter stopped");
-        let all_map_id = document.querySelectorAll("[data-audio-url]");
-        let count = all_map_id.length;
+        let all_map = document.querySelectorAll(".beatmapsets__item");
+        let count = all_map.length;
         hidemaps++;
         updatestatus(`Filter is running\n${map_list.length} maps in list`);
-        all_map_id.forEach(item => {
+        all_map.forEach(item => {
             setTimeout(() => {
                 if (stop || map_list.length === 0) return updatestatus("Filter stopped");
-
-                let map_id = item.getAttribute("data-audio-url").split("/");
-                map_id = map_id[map_id.length-1].replace(".mp3", "");
-                map_id = parseInt(map_id, 10);
-                if (map_list.includes(map_id)) {
-                    item.querySelector(".beatmapset-panel__panel").style.opacity = "10%";
+                let map_id = item.querySelector(`[data-audio-url]`).getAttribute("data-audio-url").match(/\/(\d+)\.mp3/);
+                if (!map_id) return;
+                map_id = map_id[1];
+                if (use_hash ? map_list[map_id] : map_list.includes(map_id)) {
+                    item.style.opacity = "10%";
+                    if (debug_msg) console.log(`${count} hide ${map_id}`);
                 }
-
-                let link = item.querySelector(`a[href$="${map_id}"]`);
-                link.setAttribute("target", "_blank");
-
+                let link = item.querySelectorAll("a");
+                link.forEach(a => { if (!a.href.includes("/download")) a.setAttribute("target", "_blank"); });
                 count--;
                 if (count === 0) setTimeout(runfilter, 100);
             }, 0);
@@ -113,14 +111,15 @@ https://github.com/x94fujo6rpg/osuMapFilter
             map_list = JSON.parse(contents);
             stop = 0;
             if (map_list.length > 0) {
-                toInt();
+                if (use_hash) {
+                    let new_obj = {};
+                    map_list.forEach(id => new_obj[id] = 1);
+                    new_obj.length = map_list.length;
+                    map_list = new_obj;
+                }
                 runfilter();
             }
         };
         reader.readAsText(file);
-    }
-
-    function toInt() {
-        map_list.forEach((id, index) => map_list[index] = parseInt(id, 10));
     }
 })();
