@@ -2,7 +2,7 @@
 Filter existing maps  
 過濾已有的圖  
 效果:  
-![](https://i.imgur.com/dkT6nFu.jpg)  
+![](https://i.imgur.com/yjkvH6o.png)  
 
 you need map list to make this script work  
 if you from greasyfork, get python script on [my github](https://github.com/x94fujo6rpg/osuMapFilter)  

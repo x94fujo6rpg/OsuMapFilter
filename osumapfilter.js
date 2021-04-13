@@ -148,3 +148,4 @@ https://github.com/x94fujo6rpg/osuMapFilter
         reader.readAsText(file);
     }
 })();
+
