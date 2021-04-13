@@ -8,11 +8,16 @@ you need map list to make this script work
 if you from greasyfork, get python script on [my github](https://github.com/x94fujo6rpg/osuMapFilter)  
 
 ## update
-v0.3:
-fix for new site ui
 
-v0.2: add stop button, fix some issue  
-make map links open in new tab (prevent accidental clicks)  
+- v0.4:
+	- improve speed
+
+- v0.3:
+	- fix for new site ui
+
+- v0.2: 
+	- add stop button, fix some issue  
+	- make map links open in new tab (prevent accidental clicks)  
 
 ## usage
 require: [Python 3.8+](https://www.python.org/downloads/) / [Tampermonkey](https://www.tampermonkey.net/)  
