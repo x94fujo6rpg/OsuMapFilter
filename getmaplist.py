@@ -1,7 +1,7 @@
 import os
 import json
 import codecs
-from tkinter import Tk, filedialog, messagebox
+from tkinter import Tk, messagebox
 
 
 def get_list(path):
@@ -17,7 +17,7 @@ def get_list(path):
 
 window = Tk()
 window.withdraw()
-osu_path = filedialog.askdirectory(title="Select osu path (folder contain osu!.exe)")
+osu_path = os.getcwd()
 isfile = os.path.isfile(osu_path + "/osu!.exe")
 
 if isfile:
