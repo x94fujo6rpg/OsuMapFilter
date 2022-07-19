@@ -7,7 +7,18 @@ Filter existing maps
 you need map list to make this script work  
 if you from greasyfork, get python script on [my github](https://github.com/x94fujo6rpg/osuMapFilter)  
 
+if you aren't open [https://osu.ppy.sh/beatmapsets](https://osu.ppy.sh/beatmapsets) directly  
+F5 to run the script  
+
 ## update
+
+- v0.5:
+    - auto save & load old data
+    - auto add map to list when download
+      - also work at map page (https://osu.ppy.sh/beatmapsets/xxxxxxx)
+      - but it won't sync to other tab. if you open the list page (https://osu.ppy.sh/beatmapsets), you need F5 to refresh the page so the script can re-load list data
+    - read file will overwrite it
+    - this is not 100%. if you have del some map or add new map in other way, re-run python script & load list data
 
 - v0.4:
 	- improve speed
